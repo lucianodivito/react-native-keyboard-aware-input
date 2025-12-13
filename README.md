@@ -24,7 +24,7 @@ yarn add react-native-keyboard-aware-input
 ```js
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import KeyboardAwareInput from 'react-native-keyboard-aware-input';
+import { KeyboardAwareInput } from 'react-native-keyboard-aware-input';
 
 export default function App() {
   const [text, setText] = useState('');

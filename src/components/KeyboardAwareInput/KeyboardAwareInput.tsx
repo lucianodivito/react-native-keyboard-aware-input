@@ -102,14 +102,22 @@ const KeyboardAwareInput: React.FC<KeyboardAwareInputProps> = (props) => {
                     autoFocus={false}
                     {...restProps}
                   />
-                  <TouchableOpacity
-                    onPress={close}
-                    style={[styles.closeButtonInside, closeButtonStyle]}
-                  >
-                    {renderCloseButton ?? (
+                  {renderCloseButton &&
+                  React.isValidElement(renderCloseButton) ? (
+                    React.cloneElement(
+                      renderCloseButton as React.ReactElement<
+                        React.ComponentProps<typeof TouchableOpacity>
+                      >,
+                      { onPress: close }
+                    )
+                  ) : (
+                    <TouchableOpacity
+                      onPress={close}
+                      style={[styles.closeButtonInside, closeButtonStyle]}
+                    >
                       <Text style={styles.closeText}>X</Text>
-                    )}
-                  </TouchableOpacity>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
             </TouchableWithoutFeedback>

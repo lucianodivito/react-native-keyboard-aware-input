@@ -1,6 +1,6 @@
 {
   "name": "react-native-keyboard-aware-input",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A React Native component that shows inputs in an overlay above the keyboard for better typing experience.A React Native component that shows inputs in an overlay above the keyboard for better typing experience.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",

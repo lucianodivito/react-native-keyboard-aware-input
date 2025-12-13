@@ -1,6 +1,13 @@
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import { ScrollView, Text, StyleSheet, Alert, View } from 'react-native';
+import {
+  ScrollView,
+  Text,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import { KeyboardAwareInput } from 'react-native-keyboard-aware-input';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function App() {
   return (
@@ -16,7 +23,6 @@ export default function App() {
           <KeyboardAwareInput
             placeholder="Nombre completo"
             inputStyle={styles.input}
-            showBackdrop
           />
 
           {/* 2. Email */}
@@ -33,33 +39,32 @@ export default function App() {
             inputStyle={styles.input}
           />
 
-          {/* 4. Teléfono */}
           <KeyboardAwareInput
             placeholder="Teléfono"
             keyboardType="phone-pad"
             inputStyle={styles.input}
           />
 
-          {/* 5. Comentario multiline */}
           <KeyboardAwareInput
-            placeholder="Comentario"
-            multiline
-            numberOfLines={4}
+            containerStyle={{
+              borderTopWidth: 1.5,
+              borderTopColor: '#eee',
+            }}
+            placeholder="Advanced usage"
             inputStyle={styles.input}
-          />
-
-          {/* 6. Botón de cerrar custom */}
-          <KeyboardAwareInput
-            placeholder="Botón custom"
-            inputStyle={styles.input}
-            closeButtonStyle={styles.customCloseButton}
             renderCloseButton={
-              <View style={styles.customCloseButton}>
-                <Text style={styles.customButtonText}>Ok</Text>
-              </View>
+              <TouchableOpacity style={styles.searchButton}>
+                <MaterialIcons
+                  name="search"
+                  size={20}
+                  color="#fff"
+                  style={{ marginRight: 5 }}
+                />
+                <Text style={styles.searchButtonText}>Buscar</Text>
+              </TouchableOpacity>
             }
             onCloseCustom={(value, close) => {
-              Alert.alert('Valor actual:', value);
+              Alert.alert('Actual value:', value);
               close();
             }}
           />
@@ -85,7 +90,6 @@ const styles = StyleSheet.create({
     color: '#1a1a1a',
   },
 
-  // Estilo uniforme para todos los inputs
   input: {
     backgroundColor: '#fff',
     borderRadius: 8,
@@ -96,21 +100,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
 
-  // Botón de cerrar custom
-  customCloseButton: {
-    backgroundColor: '#4f94ff',
-    borderRadius: 20,
-    paddingHorizontal: 14,
+  searchButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#007AFF',
     paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    marginLeft: 8,
   },
-  customButtonText: {
+  searchButtonText: {
     color: '#fff',
     fontWeight: '600',
-  },
-
-  // Right element
-  rightElementText: {
-    fontSize: 18,
-    marginLeft: 8,
   },
 });

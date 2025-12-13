@@ -9,7 +9,7 @@ export interface KeyboardAwareInputProps extends TextInputProps {
   onChangeText?: (text: string) => void;
   containerStyle?: ViewStyle;
   closeButtonStyle?: ViewStyle;
-  renderCloseButton?: React.ReactNode;
+  renderCloseButton?: React.ReactElement;
   inputStyle?: TextStyle | ViewStyle;
   modalInputStyle?: TextStyle | ViewStyle;
   onCloseCustom?: (value: string, close: () => void) => void;
