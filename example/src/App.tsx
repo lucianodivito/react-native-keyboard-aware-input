@@ -1,15 +1,11 @@
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import {
-  ScrollView,
-  Text,
-  StyleSheet,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
+import { ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareInput } from 'react-native-keyboard-aware-input';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useState } from 'react';
 
 export default function App() {
+  const [name, setName] = useState('');
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeArea}>
@@ -18,39 +14,14 @@ export default function App() {
           keyboardShouldPersistTaps="handled"
         >
           <Text style={styles.title}>KeyboardAwareInput Demo</Text>
-
-          {/* 1. Input común */}
           <KeyboardAwareInput
-            placeholder="Nombre completo"
-            inputStyle={styles.input}
-          />
-
-          {/* 2. Email */}
-          <KeyboardAwareInput
-            placeholder="Email"
-            keyboardType="email-address"
-            inputStyle={styles.input}
-          />
-
-          {/* 3. Contraseña */}
-          <KeyboardAwareInput
-            placeholder="Contraseña"
-            secureTextEntry
-            inputStyle={styles.input}
-          />
-
-          <KeyboardAwareInput
-            placeholder="Teléfono"
-            keyboardType="phone-pad"
-            inputStyle={styles.input}
-          />
-
-          <KeyboardAwareInput
+            value={name}
+            onChangeText={setName}
             containerStyle={{
               borderTopWidth: 1.5,
               borderTopColor: '#eee',
             }}
-            placeholder="Advanced usage"
+            placeholder="Custom"
             inputStyle={styles.input}
             renderCloseButton={
               <TouchableOpacity style={styles.searchButton}>
@@ -60,13 +31,9 @@ export default function App() {
                   color="#fff"
                   style={{ marginRight: 5 }}
                 />
-                <Text style={styles.searchButtonText}>Buscar</Text>
+                <Text style={styles.searchButtonText}>Search</Text>
               </TouchableOpacity>
             }
-            onCloseCustom={(value, close) => {
-              Alert.alert('Actual value:', value);
-              close();
-            }}
           />
         </ScrollView>
       </SafeAreaView>

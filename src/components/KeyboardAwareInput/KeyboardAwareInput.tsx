@@ -1,5 +1,4 @@
-// src/components/KeyboardAwareInput/KeyboardAwareInput.tsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import {
   View,
   TextInput,
@@ -15,8 +14,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { type KeyboardAwareInputProps } from './types';
 
 const KeyboardAwareInput: React.FC<KeyboardAwareInputProps> = (props) => {
+  console.log('Se renderiza');
+
   const {
     value = '',
+    onChangeText,
     placeholder,
     containerStyle,
     closeButtonStyle,
@@ -33,34 +35,31 @@ const KeyboardAwareInput: React.FC<KeyboardAwareInputProps> = (props) => {
   const inputRef = useRef<React.ComponentRef<typeof TextInput>>(null);
 
   const bottomInput = useKeyboardBottomInset();
+  const effectiveBottomInset = visible ? bottomInput : 0;
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {
+  const open = () => {
     setInternalValue(value);
-  }, [value]);
+    setVisible(true);
+  };
 
-  const close = () => {
+  const close = useCallback(() => {
     const doClose = () => {
       setVisible(false);
-      props.onChangeText?.(internalValue);
+      onChangeText?.(internalValue);
     };
 
-    if (onCloseCustom) {
-      onCloseCustom(internalValue, doClose);
-    } else {
-      doClose();
-    }
-  };
+    onCloseCustom ? onCloseCustom(internalValue, doClose) : doClose();
+  }, [internalValue, onCloseCustom, onChangeText]);
 
   return (
     <>
-      <TouchableOpacity activeOpacity={0.8} onPress={() => setVisible(true)}>
+      <TouchableOpacity activeOpacity={0.8} onPress={open}>
         <View pointerEvents="none">
           <TextInput
-            value={internalValue}
+            value={value}
             placeholder={placeholder}
             style={[styles.fakeInput, inputStyle]}
-            {...restProps}
           />
         </View>
       </TouchableOpacity>
@@ -85,7 +84,7 @@ const KeyboardAwareInput: React.FC<KeyboardAwareInputProps> = (props) => {
           <View
             style={[
               styles.overlay,
-              { paddingBottom: bottomInput + insets.bottom },
+              { paddingBottom: effectiveBottomInset + insets.bottom },
               showBackdrop && styles.backdrop,
             ]}
           >
